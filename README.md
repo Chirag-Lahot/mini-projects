@@ -1,6 +1,6 @@
-# 🏆 BharatVerify - Comprehensive Certificate Verification System
+# 🏆 CertificateVerify - Comprehensive Certificate Verification System
 
-Welcome to **BharatVerify**, an enterprise-grade digital credential validation system. Easily verify the authenticity of all kinds of digital credentials — from academic degrees to technical bootcamps and internship completion letters — in just a few clicks!
+Welcome to **CertificateVerify**, an enterprise-grade digital credential validation system. Easily verify the authenticity of all kinds of digital credentials — from academic degrees to technical bootcamps and internship completion letters — in just a few clicks!
 
 ---
 
@@ -59,4 +59,3 @@ This simulated tool uses rigorous frontend security structures:
 
 ---
 
-Made with ❤️ and Vanilla JavaScript.
