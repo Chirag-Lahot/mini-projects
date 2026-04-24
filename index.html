@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise Certificate Verification</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="style.css">
+    <!-- Indian style specific icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
@@ -17,11 +19,12 @@
         <!-- Left Banner -->
         <aside class="hero-section">
             <div class="hero-content">
-                <div class="logo">ShieldVerify™</div>
+                <div class="logo">BharatVerify™</div>
                 <h1>Secure Credential Validation</h1>
-                <p>Instantly verify the authenticity of certificates, diplomas, and digital credentials issued by our recognized partners.</p>
+                <p>Instantly verify the authenticity of certificates, diplomas, and digital credentials issued by our recognized partners across India.</p>
                 <div class="trust-badges">
                     <span>✓ ISO 27001 Certified</span>
+                    <span>✓ MeitY Compliant</span>
                     <span>✓ End-to-End Encrypted</span>
                 </div>
             </div>
@@ -54,28 +57,51 @@
                 <div class="scanner-container">
                     <div id="reader"></div>
                 </div>
-                <button id="stopScannerBtn" class="btn btn-outline hidden">Stop Scanner</button>
+                <div class="scan-actions">
+                    <label class="btn btn-primary capture-btn" for="qrInputFile">
+                        <i class="fas fa-camera"></i> Capture / Upload QR
+                        <input type="file" id="qrInputFile" accept="image/*" capture="environment" hidden>
+                    </label>
+                    <button id="stopScannerBtn" class="btn btn-outline hidden mt-4">Stop Camera</button>
+                </div>
             </div>
 
             <!-- Results -->
             <div id="resultsSection" class="results-section hidden">
                 <div id="resultState" class="result-banner"></div>
 
-                <div id="certificateDetails" class="certificate-classic hidden">
-                    <div class="classic-border">
-                        <div class="classic-header">
-                            <h3>CERTIFICATE OF AUTHENTICITY</h3>
-                        </div>
-                        <div class="classic-body">
-                            <p>This is to certify that</p>
-                            <h2 class="cert-name"></h2>
-                            <p>has successfully completed the program</p>
-                            <h3 class="cert-course"></h3>
-                            
-                            <div class="classic-meta">
-                                <div><small>ID</small><br><span class="cert-id"></span></div>
-                                <div><small>ISSUED</small><br><span class="cert-date"></span></div>
-                                <div><small>ISSUER</small><br><span class="cert-issuer"></span></div>
+                <div id="certificateDetails" class="certificate-indian hidden">
+                    <div class="indian-border-1">
+                        <div class="indian-border-2">
+                            <div class="indian-header">
+                                <div class="gold-emblem">🏆</div>
+                                <h3>CERTIFICATE OF MERIT</h3>
+                                <p class="sub-header">PROUDLY PRESENTED TO</p>
+                            </div>
+                            <div class="indian-body">
+                                <h2 class="cert-name"></h2>
+                                <p class="course-text">For successfully completing the following program</p>
+                                <h3 class="cert-course"></h3>
+                                
+                                <div class="indian-signatures">
+                                    <div class="sig-block">
+                                        <div class="sig-line"></div>
+                                        <p>Director</p>
+                                    </div>
+                                    <div class="sig-block">
+                                        <div class="sig-stamp">Seal</div>
+                                    </div>
+                                    <div class="sig-block">
+                                        <div class="sig-line"></div>
+                                        <p>Registrar</p>
+                                    </div>
+                                </div>
+
+                                <div class="indian-meta">
+                                    <div><span>Certificate Number:</span> <span class="cert-id"></span></div>
+                                    <div><span>Date of Issue:</span> <span class="cert-date"></span></div>
+                                    <div><span>Issued By:</span> <span class="cert-issuer"></span></div>
+                                </div>
                             </div>
                         </div>
                     </div>

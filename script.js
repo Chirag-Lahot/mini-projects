@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const qrInputFile = document.getElementById('qrInputFile');
+
     // Sub-menus tabs
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -87,6 +89,27 @@ document.addEventListener('DOMContentLoaded', () => {
         tabs[0].click(); // jump to manual entry automatically
         validateCertificate(decodedText);
     }
+
+    // Capture / upload QR image logic
+    qrInputFile.addEventListener('change', e => {
+        if (e.target.files.length == 0) return;
+        const imageFile = e.target.files[0];
+        
+        if (!html5QrcodeScanner) {
+            html5QrcodeScanner = new Html5Qrcode("reader");
+        }
+
+        html5QrcodeScanner.scanFile(imageFile, true)
+        .then(decodedText => {
+            onScanSuccess(decodedText, null);
+        })
+        .catch(err => {
+            alert(`Error scanning image: ${err}`);
+        });
+        
+        // Reset file input
+        qrInputFile.value = '';
+    });
 
     stopScannerBtn.addEventListener('click', stopScanner);
 
