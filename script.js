@@ -4,14 +4,36 @@ const certificateDatabase = {
         course: 'Advanced Web Development',
         issueDate: '2024-01-15',
         issuer: 'Tech Academy International',
-        id: 'CERT-2024-0001'
+        id: 'CERT-2024-0001',
+        type: 'COURSE COMPLETION',
+        description: 'For successfully completing the following program'
     },
-    'CERT-2024-0002': {
-        name: 'Sarah Mitchell',
-        course: 'Full Stack JavaScript Mastery',
-        issueDate: '2024-02-20',
-        issuer: 'Tech Academy International',
-        id: 'CERT-2024-0002'
+    'INT-2024-0089': {
+        name: 'Priya Sharma',
+        course: 'Software Engineering Intern',
+        issueDate: '2024-03-20',
+        issuer: 'InnovateTech India Pvt. Ltd.',
+        id: 'INT-2024-0089',
+        type: 'CERTIFICATE OF INTERNSHIP',
+        description: 'For successful and satisfactory completion of the internship role'
+    },
+    'WORK-2024-4421': {
+        name: 'Arjun Desai',
+        course: 'AI & Machine Learning Masterclass',
+        issueDate: '2024-04-10',
+        issuer: 'National Tech Institute',
+        id: 'WORK-2024-4421',
+        type: 'WORKSHOP PARTICIPATION',
+        description: 'For active participation and excellence in the workshop'
+    },
+    'DEG-2023-9901': {
+        name: 'Sneha Patel',
+        course: 'Bachelor of Technology in Computer Science',
+        issueDate: '2023-08-05',
+        issuer: 'State Technological University',
+        id: 'DEG-2023-9901',
+        type: 'ACADEMIC DEGREE',
+        description: 'Having fulfilled all academic requirements for the degree of'
     }
 };
 
@@ -27,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stopScannerBtn = document.getElementById('stopScannerBtn');
     const resultsSection = document.getElementById('resultsSection');
     const resetBtn = document.getElementById('resetBtn');
+    const qrInputFile = document.getElementById('qrInputFile');
 
     // Theme Toggle
     const themeBtn = document.getElementById('themeToggle');
@@ -40,8 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
     });
-
-    const qrInputFile = document.getElementById('qrInputFile');
 
     // Sub-menus tabs
     tabs.forEach(tab => {
@@ -70,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess)
         .then(() => stopScannerBtn.classList.remove('hidden'))
         .catch(err => {
-            alert("Camera access denied or unvailable: " + err);
+            alert("Camera access denied or unavailable: " + err);
             tabs[0].click(); // Revert to manual tab
         });
     }
@@ -110,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Reset file input
         qrInputFile.value = '';
     });
+
 
     stopScannerBtn.addEventListener('click', stopScanner);
 
@@ -158,6 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
             stateEl.className = 'result-banner success';
             detailsEl.classList.remove('hidden');
             
+            document.querySelector('.cert-type').textContent = cert.type || 'CERTIFICATE OF MERIT';
+            document.querySelector('.cert-description').textContent = cert.description || 'For successfully completing the following program';
             document.querySelector('.cert-name').textContent = cert.name;
             document.querySelector('.cert-course').textContent = cert.course;
             document.querySelector('.cert-id').textContent = cert.id;
