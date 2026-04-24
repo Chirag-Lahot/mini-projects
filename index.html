@@ -3,140 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Verification System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <title>Enterprise Certificate Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <span class="theme-icon">🌙</span>
     </button>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h1 class="header-title">🔐 Certificate Verification</h1>
-                <p class="header-subtitle">Verify the authenticity of your certificate instantly</p>
+    <main class="app-container">
+        <!-- Left Banner -->
+        <aside class="hero-section">
+            <div class="hero-content">
+                <div class="logo">ShieldVerify™</div>
+                <h1>Secure Credential Validation</h1>
+                <p>Instantly verify the authenticity of certificates, diplomas, and digital credentials issued by our recognized partners.</p>
+                <div class="trust-badges">
+                    <span>✓ ISO 27001 Certified</span>
+                    <span>✓ End-to-End Encrypted</span>
+                </div>
             </div>
-        </div>
-    </header>
+        </aside>
 
-    <!-- Main Content -->
-    <main class="container">
-        <div class="verification-wrapper">
-            <!-- Input Section -->
-            <section class="verification-section">
+        <!-- Right Validation Panel -->
+        <section class="validation-panel">
+            <div class="panel-header">
+                <h2>Verify Certificate</h2>
+                <p>Enter a certificate ID or scan a QR code.</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" data-tab="manual">Manual Entry</button>
+                <button class="tab" data-tab="scanner">QR Scanner</button>
+            </div>
+
+            <!-- Manual Entry -->
+            <div id="manualTab" class="tab-content active">
                 <div class="input-group">
-                    <label for="certificateId" class="label">Enter Certificate ID</label>
-                    <div class="input-wrapper">
-                        <input 
-                            type="text" 
-                            id="certificateId" 
-                            class="input-field" 
-                            placeholder="e.g., CERT-2024-0001"
-                            autocomplete="off"
-                            maxlength="50"
-                        >
-                        <span class="input-icon">📋</span>
-                    </div>
-                    <p class="input-hint">Format: CERT-YYYY-XXXX</p>
-                    <div id="errorMessage" class="error-message"></div>
+                    <label for="certificateId">Certificate ID</label>
+                    <input type="text" id="certificateId" placeholder="CERT-YYYY-XXXX" autocomplete="off" maxlength="50">
+                    <span class="error-message hidden" id="errorMessage"></span>
                 </div>
-
-                <button id="verifyBtn" class="btn btn-primary">
-                    <span class="btn-text">Verify Certificate</span>
-                    <span class="btn-loader hidden"></span>
-                </button>
-
-                <!-- Rate Limiting Message -->
-                <div id="rateLimitMessage" class="rate-limit-message hidden"></div>
-            </section>
-
-            <!-- QR Code Preview (Bonus Feature) -->
-            <section class="qr-section hidden" id="qrSection">
-                <h2>Verification Code</h2>
-                <div class="qr-container">
-                    <div id="qrCode" class="qr-placeholder"></div>
-                    <p class="qr-hint">Scan to verify certificate authenticity</p>
-                </div>
-            </section>
-        </div>
-
-        <!-- Results Section -->
-        <section class="results-section hidden" id="resultsSection">
-            <!-- Success State -->
-            <div id="successState" class="result-card result-success hidden">
-                <div class="result-header">
-                    <span class="result-icon success">✓</span>
-                    <h2 class="result-title">Certificate Verified</h2>
-                </div>
-                <p class="result-message">This is a valid and authentic certificate.</p>
+                <button id="verifyBtn" class="btn btn-primary">Verify Credential</button>
             </div>
 
-            <!-- Error State -->
-            <div id="errorState" class="result-card result-error hidden">
-                <div class="result-header">
-                    <span class="result-icon error">✕</span>
-                    <h2 class="result-title">Certificate Not Found</h2>
+            <!-- QR Scanner -->
+            <div id="scannerTab" class="tab-content">
+                <div class="scanner-container">
+                    <div id="reader"></div>
                 </div>
-                <p class="result-message">The certificate ID does not exist in our database.</p>
+                <button id="stopScannerBtn" class="btn btn-outline hidden">Stop Scanner</button>
             </div>
 
-            <!-- Certificate Details Card -->
-            <div id="certificateDetails" class="certificate-card hidden">
-                <div class="cert-header">
-                    <div class="cert-badge">✓ VERIFIED</div>
-                    <h3 class="cert-name"></h3>
-                </div>
-                <div class="cert-details-grid">
-                    <div class="cert-detail-item">
-                        <span class="detail-label">Course</span>
-                        <span class="cert-course"></span>
-                    </div>
-                    <div class="cert-detail-item">
-                        <span class="detail-label">Certificate ID</span>
-                        <span class="cert-id"></span>
-                    </div>
-                    <div class="cert-detail-item">
-                        <span class="detail-label">Issue Date</span>
-                        <span class="cert-date"></span>
-                    </div>
-                    <div class="cert-detail-item">
-                        <span class="detail-label">Expiry Date</span>
-                        <span class="cert-expiry"></span>
-                    </div>
-                    <div class="cert-detail-item">
-                        <span class="detail-label">Issued By</span>
-                        <span class="cert-issuer"></span>
-                    </div>
-                    <div class="cert-detail-item">
-                        <span class="detail-label">Status</span>
-                        <span class="cert-status"></span>
-                    </div>
-                </div>
+            <!-- Results -->
+            <div id="resultsSection" class="results-section hidden">
+                <div id="resultState" class="result-banner"></div>
 
-                <div class="cert-actions">
-                    <button id="downloadCertBtn" class="btn btn-secondary">
-                        📥 Download Certificate
-                    </button>
-                    <button id="printCertBtn" class="btn btn-secondary">
-                        🖨️ Print Certificate
-                    </button>
+                <div id="certificateDetails" class="certificate-classic hidden">
+                    <div class="classic-border">
+                        <div class="classic-header">
+                            <h3>CERTIFICATE OF AUTHENTICITY</h3>
+                        </div>
+                        <div class="classic-body">
+                            <p>This is to certify that</p>
+                            <h2 class="cert-name"></h2>
+                            <p>has successfully completed the program</p>
+                            <h3 class="cert-course"></h3>
+                            
+                            <div class="classic-meta">
+                                <div><small>ID</small><br><span class="cert-id"></span></div>
+                                <div><small>ISSUED</small><br><span class="cert-date"></span></div>
+                                <div><small>ISSUER</small><br><span class="cert-issuer"></span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button id="resetBtn" class="btn btn-outline mt-4">Verify Another</button>
             </div>
-
-            <button id="backBtn" class="btn btn-outline">← Verify Another Certificate</button>
         </section>
     </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 Certificate Verification System. All rights reserved.</p>
-        <p class="security-note">🔒 Your data is never stored. Verification is done locally and securely.</p>
-    </footer>
-
     <script src="script.js"></script>
 </body>
 </html>
